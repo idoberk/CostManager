@@ -12,7 +12,7 @@ import {
 	List,
 	ListItem,
 	ListItemText,
-	Divider
+	Divider, Box
 } from '@mui/material';
 
 /**
@@ -44,97 +44,107 @@ const CostReport = ({
 	const totalAmount = Object.values(categoryTotals).reduce((a, b) => a + b, 0);
 
 	return (
-		<Card>
+		<Card sx={{ width: '100%', height: '100%' }}>
 			<CardContent>
-				<Typography variant="h6" gutterBottom>
-					Monthly Report
-				</Typography>
+				<Box sx={{ width: '100%', minWidth: 0}}>
+					<Typography variant="h6" gutterBottom>
+						Monthly Report
+					</Typography>
 
-				<div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-					<FormControl style={{ minWidth: 120 }}>
-						<InputLabel>Month</InputLabel>
-						<Select
-							value={selectedMonth}
-							label="Month"
-							onChange={(e) => onMonthChange(e.target.value)}
-						>
-							{Array.from({ length: 12 }, (_, i) => (
-								<MenuItem key={i + 1} value={i + 1}>
-									{new Date(2000, i).toLocaleString('default', { month: 'long' })}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
+					<Box sx = {{
+						display: 'flex',
+						gap: '1rem',
+						marginBottom: '1rem',
+						flexWrap: 'wrap'
+					}}>
+						<FormControl style={{ minWidth: 120, flex: '1 1 auto' }}>
+							<InputLabel>Month</InputLabel>
+							<Select
+								value={selectedMonth}
+								label="Month"
+								onChange={(e) => onMonthChange(e.target.value)}
+							>
+								{Array.from({ length: 12 }, (_, i) => (
+									<MenuItem key={i + 1} value={i + 1}>
+										{new Date(2000, i).toLocaleString('default', { month: 'long' })}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
 
-					<FormControl style={{ minWidth: 120 }}>
-						<InputLabel>Year</InputLabel>
-						<Select
-							value={selectedYear}
-							label="Year"
-							onChange={(e) => onYearChange(e.target.value)}
-						>
-							{Array.from({ length: 5 }, (_, i) => (
-								<MenuItem
-									key={i}
-									value={new Date().getFullYear() - i}
-								>
-									{new Date().getFullYear() - i}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
-				</div>
+						<FormControl style={{ minWidth: 120, flex: '1 1 auto' }}>
+							<InputLabel>Year</InputLabel>
+							<Select
+								value={selectedYear}
+								label="Year"
+								onChange={(e) => onYearChange(e.target.value)}
+							>
+								{Array.from({ length: 5 }, (_, i) => (
+									<MenuItem
+										key={i}
+										value={new Date().getFullYear() - i}
+									>
+										{new Date().getFullYear() - i}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+					</Box>
 
-				{/* Pie Chart */}
-				{Object.keys(categoryTotals).length > 0 && (
-					<Chart
-						chartType="PieChart"
-						data={chartData}
-						options={options}
-						width="100%"
-					/>
-				)}
+					{/* Pie Chart */}
+					<Box sx={{ width: '100%', overFlow: 'hidden'}}>
 
-				{/* Summary */}
-				<Typography variant="h6" gutterBottom style={{ marginTop: '1rem' }}>
-					Total Expenses: ${totalAmount.toFixed(2)}
-				</Typography>
+						{Object.keys(categoryTotals).length > 0 && (
+							<Chart
+								chartType="PieChart"
+								data={chartData}
+								options={options}
+								width="100%"
+							/>
+						)}
+					</Box>
 
-				{/* Category Breakdown */}
-				<List>
-					{Object.entries(categoryTotals).map(([category, amount], index) => (
-						<React.Fragment key={category}>
-							<ListItem>
-								<ListItemText
-									primary={category}
-									secondary={`$${amount.toFixed(2)} (${((amount/totalAmount)*100).toFixed(1)}%)`}
-								/>
-							</ListItem>
-							{index < Object.entries(categoryTotals).length - 1 && <Divider />}
-						</React.Fragment>
-					))}
-				</List>
+					{/* Summary */}
+					<Typography variant="h6" gutterBottom style={{ marginTop: '1rem' }}>
+						Total Expenses: ${totalAmount.toFixed(2)}
+					</Typography>
 
-				{/* Expenses List */}
-				<Typography variant="h6" style={{ marginTop: '2rem' }} gutterBottom>
-					Detailed Expenses
-				</Typography>
-				<List>
-					{items.map((item) => (
-						<React.Fragment key={item.id}>
-							<ListItem>
-								<ListItemText
-									primary={item.description}
-									secondary={`${item.category} - ${new Date(item.date).toLocaleDateString()}`}
-								/>
-								<Typography variant="body2">
-									${parseFloat(item.amount).toFixed(2)}
-								</Typography>
-							</ListItem>
-							<Divider />
-						</React.Fragment>
-					))}
-				</List>
+					{/* Category Breakdown */}
+					<List sx={{ width: '100%' }}>
+						{Object.entries(categoryTotals).map(([category, amount], index) => (
+							<React.Fragment key={category}>
+								<ListItem>
+									<ListItemText
+										primary={category}
+										secondary={`$${amount.toFixed(2)} (${((amount/totalAmount)*100).toFixed(1)}%)`}
+									/>
+								</ListItem>
+								{index < Object.entries(categoryTotals).length - 1 && <Divider />}
+							</React.Fragment>
+						))}
+					</List>
+
+					{/* Expenses List */}
+					<Typography variant="h6" style={{ marginTop: '2rem' }} gutterBottom>
+						Detailed Expenses
+					</Typography>
+					<List sx={{ width: '100%' }}>
+						{items.map((item) => (
+							<React.Fragment key={item.id}>
+								<ListItem>
+									<ListItemText
+										primary={item.description}
+										secondary={`${item.category} - ${new Date(item.date).toLocaleDateString()}`}
+									/>
+									<Typography variant="body2">
+										${parseFloat(item.amount).toFixed(2)}
+									</Typography>
+								</ListItem>
+								<Divider />
+							</React.Fragment>
+						))}
+					</List>
+				</Box>
 			</CardContent>
 		</Card>
 	);

@@ -9,28 +9,55 @@ import {
 	TextField,
 	Typography
 } from "@mui/material";
+import { useState } from "react";
+
+
 
 const CATEGORIES = ['Housing', 'Food', 'Shopping', 'Transportation', 'Entertainment', 'Other'];
 
 /* eslint-disable react/prop-types */
 
 const CostsForm = ({ formData, setFormData, onSubmit}) => {
+	const [amountError, setAmountError] = useState('');
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		const amount = parseFloat(formData.amount);
+		if (amount <= 0) {
+			setAmountError('Amount must be greater than 0');
+			return;
+		}
+
+		setAmountError('');
+		onSubmit(e);
+	};
+
+	const handleAmountChange = (e) => {
+		const value = e.target.value;
+		setFormData({
+			...formData,
+			amount: value
+		});
+
+		if (amountError) {
+			setAmountError('');
+		}
+	}
 	return (
-		<Card>
+		<Card sx={{ width: '100%' }}>
 			<CardContent>
 				<Typography variant="h6" gutterBottom>
 					Add New Cost
 				</Typography>
 
-				<form onSubmit={onSubmit} style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+				<form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
 					<TextField
 						label='Amount'
 						type='number'
 						value={formData.amount}
-						onChange={(e) => setFormData({
-							...formData,
-							amount: e.target.value
-						})}
+						onChange={handleAmountChange}
+						error={!!amountError}
+						helperText={amountError}
 						required
 						fullWidth
 					/>

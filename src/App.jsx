@@ -131,16 +131,16 @@ const App = () => {
 	};
 
 	return (
-		<Container maxWidth="lg" style={{ marginTop: '2rem' }}>
-			<Grid container spacing={3}>
-				<Grid item xs={12} md={4}>
+		<Container maxWidth='lg' sx={{ marginTop: '2rem', display: 'flex', minHeight: '100vh' }}>
+			<Grid container spacing={3} sx={{ width: '100%', margin: 0}}>
+				<Grid item xs={12} md={4} sx={{ display: 'flex', flexDirection: 'column'}}>
 					<CostForm
 						formData={formData}
 						setFormData={setFormData}
 						onSubmit={handleSubmit}
 					/>
 				</Grid>
-				<Grid item xs={12} md={8}>
+				<Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column'}}>
 					<CostReport
 						items={items}
 						categoryTotals={categoryTotals}
