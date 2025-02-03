@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Snackbar, Alert, Grid2 } from '@mui/material';
+import { Container, Snackbar, Alert, Grid } from '@mui/material';
 import CostForm from './components/CostManager.jsx';
 import CostReport from './components/CostChart.jsx';
 import costManagerUtils from './lib/idb.js';
@@ -132,15 +132,15 @@ const App = () => {
 
 	return (
 		<Container maxWidth="lg" style={{ marginTop: '2rem' }}>
-			<Grid2 container spacing={3}>
-				<Grid2 item xs={12} md={4}>
+			<Grid container spacing={3}>
+				<Grid item xs={12} md={4}>
 					<CostForm
 						formData={formData}
 						setFormData={setFormData}
 						onSubmit={handleSubmit}
 					/>
-				</Grid2>
-				<Grid2 item xs={12} md={8}>
+				</Grid>
+				<Grid item xs={12} md={8}>
 					<CostReport
 						items={items}
 						categoryTotals={categoryTotals}
@@ -149,8 +149,8 @@ const App = () => {
 						onMonthChange={setSelectedMonth}
 						onYearChange={setSelectedYear}
 					/>
-				</Grid2>
-			</Grid2>
+				</Grid>
+			</Grid>
 
 			<Snackbar
 				open={feedback.open}
