@@ -128,22 +128,34 @@ const CostReport = ({
 					<Typography variant="h6" style={{ marginTop: '2rem' }} gutterBottom>
 						Detailed Expenses
 					</Typography>
-					<List sx={{ width: '100%' }}>
-						{items.map((item) => (
-							<React.Fragment key={item.id}>
+					<div style={{ maxHeight: '300px', overflow: 'auto', border: '1px solid rgba(0, 0, 0, 0.12)', borderRadius: '4px' }}>
+						<List style={{ padding: 0 }}>
+							{items.length > 0 ? (
+								items.map((item) => (
+									<React.Fragment key={item.id}>
+										<ListItem>
+											<ListItemText
+												primary={item.description}
+												secondary={`${item.category} - ${new Date(item.date).toLocaleDateString()}`}
+												primaryTypographyProps={{ style: { fontWeight: 500 } }}
+											/>
+											<Typography variant="body2" style={{ marginLeft: '16px', whiteSpace: 'nowrap' }}>
+												${parseFloat(item.amount).toFixed(2)}
+											</Typography>
+										</ListItem>
+										<Divider />
+									</React.Fragment>
+								))
+							) : (
 								<ListItem>
 									<ListItemText
-										primary={item.description}
-										secondary={`${item.category} - ${new Date(item.date).toLocaleDateString()}`}
+										primary="No expenses found for this period"
+										style={{ textAlign: 'center', color: 'rgba(0, 0, 0, 0.6)' }}
 									/>
-									<Typography variant="body2">
-										${parseFloat(item.amount).toFixed(2)}
-									</Typography>
 								</ListItem>
-								<Divider />
-							</React.Fragment>
-						))}
-					</List>
+							)}
+						</List>
+					</div>
 				</Box>
 			</CardContent>
 		</Card>
