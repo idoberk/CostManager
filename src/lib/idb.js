@@ -1,7 +1,7 @@
 const costManagerUtils = {};
 
 costManagerUtils.Database = class {
-	constructor(dbName = 'costmanagerdb', dbVersion = 1) {
+	constructor(dbName = 'CostManagerDB', dbVersion = 1) {
 		this.dbName = dbName;
 		this.dbVersion = dbVersion;
 		this.db = null;
